@@ -47,6 +47,14 @@ class HomePage extends Component {
       .catch((error) => this.setState({ error }))
       .finally(() => this.setState({ loading: false }));
   }
+
+  openMovieCart = () => {
+    const { history, location } = this.props;
+    history.push({
+      state: `home`,
+    });
+  };
+
   render() {
     const { movies, loading, error } = this.state;
     return (
@@ -57,7 +65,7 @@ class HomePage extends Component {
           movies.map((movie) => {
             const poster = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
             return (
-              <ListItem key={movie.id}>
+              <ListItem key={movie.id} onClick={this.openMovieCart}>
                 <StyledLink to={`/movies/${movie.id}`}>
                   <img src={poster} alt={movie.title} />
                   <Paragraph>{movie.title}</Paragraph>

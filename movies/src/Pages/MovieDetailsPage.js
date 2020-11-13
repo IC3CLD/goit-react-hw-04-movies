@@ -22,16 +22,15 @@ const Button = styled.button`
   outline: none;
   border: none;
   &:hover {
-  background-color: #4CAF50; /* Green */
-  color: white;
-}
+    background-color: #4caf50; /* Green */
+    color: white;
+  }
 `;
 
 const Interior = styled.div`
   display: flex;
   flex-direction: column;
   padding: 50px;
-
 `;
 
 const StyledLink = styled(Link)`
@@ -41,9 +40,9 @@ const StyledLink = styled(Link)`
   padding: 20px;
   font-size: 20px;
   margin-left: 100px;
-  &:hover{
-    color:black
-  };
+  &:hover {
+    color: black;
+  }
 `;
 
 const Pharagraph = styled.p`
@@ -67,11 +66,21 @@ class MovieDetailsPage extends Component {
   }
 
   handleBack = () => {
-    const { state } = this.props.location;
-    if (state && state.from) {
+    const { location, history } = this.props;
+    if (location.state && location.state.from) {
       return this.props.history.push(this.props.location.state.from);
+    } else if (history.location.state) {
+      return this.props.history.push("/");
     }
     this.props.history.push("/movies");
+  };
+
+  handleChangeQuery = (query) => {
+    const { history, location } = this.props;
+    history.push({
+      pathname: location.pathname,
+      search: `query=${query}`,
+    });
   };
 
   render() {
@@ -98,8 +107,22 @@ class MovieDetailsPage extends Component {
               </Interior>
             </Container>
 
-            <StyledLink to={`/movies/${movie.id}/cast`}>cast</StyledLink>
-            <StyledLink to={`/movies/${movie.id}/reviews`}>review</StyledLink>
+            <StyledLink
+              to={{
+                pathname: `/movies/${movie.id}/cast`,
+                state: { ...this.props.location.state },
+              }}
+            >
+              cast
+            </StyledLink>
+            <StyledLink
+              to={{
+                pathname: `/movies/${movie.id}/reviews`,
+                state: { ...this.props.location.state },
+              }}
+            >
+              review
+            </StyledLink>
             <Route
               path={`${this.props.match.path}/cast`}
               component={Cast}

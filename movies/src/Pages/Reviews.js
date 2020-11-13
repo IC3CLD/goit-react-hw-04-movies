@@ -9,6 +9,15 @@ const Pharagraph = styled.p`
   font-size: 30px;
 `;
 
+const Review = styled.p`
+  font-size:20px;
+`;
+
+const Container = styled.ul`
+  padding: 20px;
+  list-style: none;
+`;
+
 class Reviews extends Component {
   state = {
     reviews: [],
@@ -26,22 +35,22 @@ class Reviews extends Component {
   render() {
     const { reviews, loading, error } = this.state;
     return (
-      <div>
+      <Container>
         {error && <p>Oops, somesing wrong: {error.message}</p>}
         {loading && <Loader />}
         {this.state.reviews &&
           reviews.map((review) => {
             return (
               <li key={review.id}>
-                <p>author: {review.author}</p>
-                <p>Review: {review.content}</p>
+                <Review>author: {review.author}</Review>
+                <Review>Review: {review.content}</Review>
               </li>
             );
           })}
-        {this.state.reviews && (
+        {this.state.reviews.length>0 ? `` : (
           <Pharagraph>Sorry, but there no reviews.</Pharagraph>
         )}
-      </div>
+      </Container>
     );
   }
 }
